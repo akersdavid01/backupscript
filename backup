@@ -1,0 +1,10 @@
+#!/bin/bash
+#Script to add .bak to any file
+echo "Enter a filename to backup. > "
+read filename
+
+for x in $filename
+do
+  cp $x(,.bak}
+    echo "Backed up $x as $x.bak"
+done
