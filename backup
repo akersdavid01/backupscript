@@ -1,12 +1,48 @@
 #!/bin/bash
 #Script to add .bak to any file
+
+#Creating functions
+
+#cpSameDir  - Run when making backup in same directory. Copies file name, appends .bak, and then confirms that the file was copied.
+function cpSameDir
+{
+		cp $x $x.bak
+		echo "Backed up $x as $x.bak"
+}
+
+function quitProgram
+{
+		echo "Quitting!"
+		break
+}
+
+function cpDiffDir
+{
+		cp $x $userInput\/$x.bak
+		echo "Backed up $x as $x.bak in $userInput"
+}
+
+function enterFileName
+{
 echo "Enter a filename to backup. If you don't wish to enter anything, please type QUIT > "
 read filename
 
+}
+
+function earlyQuit
+{
 if [ "$filename" == "QUIT" ]; then
 	echo "Quitting!"
 	exit
 fi
+}
+##### Begin Program #####
+
+#This calls function above to request file name.
+enterFileName
+
+#This lets user quit before doing anything else. Rather than risk altering a file.
+earlyQuit
 
 #This will specify the directory
 echo "Enter the directory you wish to back up to. Just press ENTER if you are backing up to the current directory. If you'd like to quit, enter QUIT."
@@ -16,13 +52,10 @@ read userInput
 for x in $filename
 do
 	if [ "$userInput" == "" ]; then
-		cp $x $x.bak
-		echo "Backed up $x as $x.bak"
+		cpSameDir
 	elif [ "$userInput" == "QUIT" ]; then
-		echo "Quitting!"
-		break
+		quitProgram
 	else
-		cp $x $userInput\/$x.bak
-		echo "Backed up $x as $x.bak in $userInput"
+		cpDiffDir
 	fi
 done
