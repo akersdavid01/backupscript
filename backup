@@ -1,10 +1,28 @@
 #!/bin/bash
 #Script to add .bak to any file
-echo "Enter a filename to backup. > "
+echo "Enter a filename to backup. If you don't wish to enter anything, please type QUIT > "
 read filename
 
+if [ "$filename" == "QUIT" ]; then
+	echo "Quitting!"
+	exit
+fi
+
+#This will specify the directory
+echo "Enter the directory you wish to back up to. Just press ENTER if you are backing up to the current directory. If you'd like to quit, enter QUIT."
+read userInput
+
+#This takes the filename as input, and accepts any argument made in filename as x. If enter is pressed, it makes a backup in current directory. If QUIT is entered, nothing happens. If a directory is specified, then it copies that file to that directory.
 for x in $filename
 do
-  cp $x(,.bak}
-    echo "Backed up $x as $x.bak"
+	if [ "$userInput" == "" ]; then
+		cp $x $x.bak
+		echo "Backed up $x as $x.bak"
+	elif [ "$userInput" == "QUIT" ]; then
+		echo "Quitting!"
+		break
+	else
+		cp $x $userInput\/$x.bak
+		echo "Backed up $x as $x.bak in $userInput"
+	fi
 done
